@@ -1,0 +1,32 @@
+def minimumMaxWorkingTime(jobs, k):
+    def can_assign(jobs, k, max_time):
+        current_sum = 0
+        workers_needed = 1
+        
+        for job_time in jobs:
+            if current_sum + job_time <= max_time:
+                current_sum += job_time
+            else:
+                workers_needed += 1
+                current_sum = job_time
+                if workers_needed > k:
+                    return False
+        
+        return True
+    
+    left, right = max(jobs), sum(jobs)
+    
+    while left < right:
+        mid = (left + right) // 2
+        if can_assign(jobs, k, mid):
+            right = mid
+        else:
+            left = mid + 1
+    
+    return left
+
+# Example usage:
+jobs = [3, 2, 5, 7, 4]
+k = 2
+result = minimumMaxWorkingTime(jobs, k)
+print("Minimum possible maximum working time:", result)
