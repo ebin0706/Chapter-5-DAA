@@ -1,0 +1,41 @@
+import sys
+
+def dijkstra(graph, source):
+    n = len(graph)
+    dist = [sys.maxsize] * n  # Initialize distances with infinity
+    dist[source] = 0          # Distance to itself is 0
+    visited = set()
+    
+    while len(visited) < n:
+        # Find vertex u with the minimum distance that is not yet visited
+        min_dist = sys.maxsize
+        for v in range(n):
+            if v not in visited and dist[v] < min_dist:
+                min_dist = dist[v]
+                u = v
+        
+        # Mark u as visited
+        visited.add(u)
+        
+        # Update distances to all adjacent vertices of u
+        for v in range(n):
+            if v not in visited and graph[u][v] != sys.maxsize:
+                dist[v] = min(dist[v], dist[u] + graph[u][v])
+    
+    return dist
+
+# Example usage:
+graph = [
+    [0, 7, 9, sys.maxsize, sys.maxsize, 14],
+    [7, 0, 10, 15, sys.maxsize, sys.maxsize],
+    [9, 10, 0, 11, sys.maxsize, 2],
+    [sys.maxsize, 15, 11, 0, 6, sys.maxsize],
+    [sys.maxsize, sys.maxsize, sys.maxsize, 6, 0, 9],
+    [14, sys.maxsize, 2, sys.maxsize, 9, 0]
+]
+
+source = 0
+shortest_distances = dijkstra(graph, source)
+print("Shortest distances from vertex", source)
+for i in range(len(shortest_distances)):
+    print(f"To vertex {i}: {shortest_distances[i]}")
