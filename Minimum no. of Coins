@@ -1,0 +1,31 @@
+def min_coins_to_add(coins, target):
+    coins.sort()
+    max_covered = 0
+    coins_needed = 0
+    i = 0
+    
+    while max_covered < target:
+        if i < len(coins) and coins[i] <= max_covered + 1:
+            max_covered += coins[i]
+            i += 1
+        else:
+            coins_needed += 1
+            max_covered += max_covered + 1
+    
+    return coins_needed
+
+# Example usage:
+coins = [1, 2, 4]
+target = 8
+result = min_coins_to_add(coins, target)
+print(f"Minimum coins to add: {result}")
+
+coins = [1, 2, 3]
+target = 6
+result = min_coins_to_add(coins, target)
+print(f"Minimum coins to add: {result}")
+
+coins = [1, 5, 10]
+target = 20
+result = min_coins_to_add(coins, target)
+print(f"Minimum coins to add: {result}")
